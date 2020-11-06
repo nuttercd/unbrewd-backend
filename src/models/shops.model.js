@@ -5,61 +5,38 @@ const DataTypes = Sequelize.DataTypes;
 
 module.exports = function (app) {
   const sequelizeClient = app.get('sequelizeClient');
-  const users = sequelizeClient.define('users', {
-    username: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true
-    },
-    first_name: {
+  const shops = sequelizeClient.define('shops', {
+    name: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    last_name: {
+    address: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    password: {
+    city: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    gender: {
+    state: {
       type: DataTypes.STRING,
-      allowNull: true
+      allowNull: false
     },
-    country: {
+    zip: {
       type: DataTypes.STRING,
-      allowNull: true
-    },
-    birthday: {
-      type: DataTypes.DATE,
-      allowNull: true
+      allowNull: false
     },
     phone: {
       type: DataTypes.STRING,
-      allowNull: true
+      allowNull: false
     },
     email: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    // shop: {
-    //   type: DataTypes.INTEGER,
-    //   allowNull: true
-    // },
     photo: {
       type: DataTypes.STRING,
       allowNull: false
-    },
-    isVerified: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-      defaultValue: false
-    },
-    locationIsOn: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-      defaultValue: false
     },
   }, {
     hooks: {
@@ -70,12 +47,12 @@ module.exports = function (app) {
   });
 
   // eslint-disable-next-line no-unused-vars
-  users.associate = function (models) {
+  shops.associate = function (models) {
     // Define associations here
     // See http://docs.sequelizejs.com/en/latest/docs/associations/
-    users.hasMany(models.shops)
-    users.hasMany(models.reviews)
+    shops.belongsTo(models.users)
+    shops.hasMany(models.reviews)
   };
 
-  return users;
+  return shops;
 };
